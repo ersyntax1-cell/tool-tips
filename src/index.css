@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-text: #6b7c8c;
+  --color-accent: #ec4899;
+  --color-accent-hover: #b73676;
+  --color-title: #0b193f;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: url("/assets/fonts/Gilroy-Bold.woff2") format("woff2"),
+       url("/assets/fonts/Gilroy-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
