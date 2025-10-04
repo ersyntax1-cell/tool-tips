@@ -13,7 +13,7 @@ export default function ActionBar() {
     return (
         <>
             <BottomNavigation
-                sx={(theme) => ({
+                sx={{
                     position: "fixed",
                     bottom: 0,
                     width: "100%",
@@ -22,11 +22,11 @@ export default function ActionBar() {
                     justifyContent: "center",
                     px: 2,
                     py: 1.5,
-                    borderTop: `1px solid ${theme.palette.text.primary}`,
                     height: "auto",
                     gap: 3,
-                    zIndex: 10
-                })}
+                    zIndex: 10,
+                    boxShadow: 20
+                }}
             >
                 {ActionBarItems.map((item, index) => {
                     const { activeItem, toggle } = useSmartTipsSidebarStore();
