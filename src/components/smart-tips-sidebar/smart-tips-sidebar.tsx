@@ -74,9 +74,11 @@ export default function SmartTipsSidebar({ open, toggleDrawer }: SmartTipsProps)
 
                 if (element.id) {
                     selector = `#${element.id}`;
-                } else if (element.className && typeof element.className === "string") {
-                    const firstClass = element.className.split(" ")[0];
-                    selector = `.${firstClass}`;
+                } else if (element.classList.length > 0) {
+                    const classes = Array.from(element.classList)
+                        .map(cls => `.${cls}`)
+                        .join("");
+                    selector = classes;
                 } else {
                     selector = element.tagName.toLowerCase();
                 }
@@ -85,6 +87,7 @@ export default function SmartTipsSidebar({ open, toggleDrawer }: SmartTipsProps)
                 setIsSelecting(false);
             }
         };
+
 
 
         document.addEventListener("mouseover", handleMouseOver, true);

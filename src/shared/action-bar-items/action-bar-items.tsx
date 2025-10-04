@@ -6,6 +6,7 @@ import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
 
 export const ActionBarItems = [
   {
+    id: 'branding',
     label: "Branding",
     element: <BrushOutlinedIcon />,
     showLabel: true,
@@ -14,6 +15,7 @@ export const ActionBarItems = [
     },
   },
   {
+    id: 'tours',
     label: "Tours",
     element: <TourOutlinedIcon />,
     showLabel: true,
@@ -22,6 +24,7 @@ export const ActionBarItems = [
     },
   },
   {
+    id: 'smart-tips',
     label: "Smart tips",
     element: <LightbulbOutlinedIcon />,
     showLabel: true,
@@ -33,6 +36,7 @@ export const ActionBarItems = [
     },
   },
   {
+    id: 'add-grabers',
     label: "Add Grabbers",
     element: <AddOutlined />,
     showLabel: true,
