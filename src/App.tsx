@@ -5,14 +5,17 @@ import Home from './pages/home/home';
 import RegisterPage from './pages/auth/register/register';
 import LoginPage from './pages/auth/login/login';
 import ProtectRoutes from './components/protect-routes/protect-routes';
+import ProtectAuth from './components/protect-auth/protect-auth';
 
 function App() {
 
   return (
     <>
       <Routes>
-        <Route path='/auth/register' element={<RegisterPage />} />
-        <Route path='/auth/login' element={<LoginPage />} />
+        <Route element={<ProtectAuth />}>
+          <Route path='/auth/register' element={<RegisterPage />} />
+          <Route path='/auth/login' element={<LoginPage />} />
+        </Route>
 
         <Route element={<ProtectRoutes />}>
           <Route element={<MainLayout />}>

@@ -6,6 +6,7 @@ export default function Header() {
         <AppBar
             position="fixed"
             color="default"
+            sx={{ zIndex: 10 }}
         >
             <Toolbar sx={{
                 display: 'flex',

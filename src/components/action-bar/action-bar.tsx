@@ -24,7 +24,8 @@ export default function ActionBar() {
                     py: 1.5,
                     borderTop: `1px solid ${theme.palette.text.primary}`,
                     height: "auto",
-                    gap: 3
+                    gap: 3,
+                    zIndex: 10
                 })}
             >
                 {ActionBarItems.map((item, index) => {

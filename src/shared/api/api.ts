@@ -12,6 +12,11 @@ export const apiForm = axios.create({
   },
 });
 
+export const authApi = axios.create({
+  baseURL: "http://localhost:3000",
+  headers: { "Content-Type": "application/json" },
+});
+
 const addAuthHeader = (config: any) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -21,3 +26,4 @@ const addAuthHeader = (config: any) => {
 };
 
 apiForm.interceptors.response.use(addAuthHeader, (error) => Promise.reject(error));
+api.interceptors.response.use(addAuthHeader, (error) => Promise.reject(error));

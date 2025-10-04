@@ -28,10 +28,11 @@ export const ActionBarItems = [
     label: "Smart tips",
     element: <LightbulbOutlinedIcon />,
     showLabel: true,
-    onClick: (toggleDrawer: (
-      value: boolean,
-      label?: string
-    ) => void) => {
+    onClick: (
+      toggleDrawer: (
+        value: boolean,
+        label?: string
+      ) => void) => {
       toggleDrawer(true, "Smart tips");
     },
   },

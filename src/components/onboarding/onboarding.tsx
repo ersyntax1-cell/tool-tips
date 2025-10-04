@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { Props } from "../../types/steps/steps.types";
+import type { Props } from "../../shared/types/steps/steps.types";
 
 export default function OnboardingModal({
   steps,
