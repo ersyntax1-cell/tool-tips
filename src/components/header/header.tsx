@@ -26,6 +26,7 @@ export default function Header() {
                 <Box>
                     {NavLinks.map((link, index) => (
                         <Button
+                            id={link.id}
                             key={index}
                             color="primary"
                             sx={{ mr: 2 }}
