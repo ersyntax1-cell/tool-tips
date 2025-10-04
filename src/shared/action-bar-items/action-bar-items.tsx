@@ -8,6 +8,7 @@ export const ActionBarItems = [
   {
     label: "Branding",
     element: <BrushOutlinedIcon />,
+    showLabel: true,
     onClick: () => {
       console.log("Branding clicked");
     },
@@ -15,6 +16,7 @@ export const ActionBarItems = [
   {
     label: "Tours",
     element: <TourOutlinedIcon />,
+    showLabel: true,
     onClick: () => {
       console.log("Tours clicked");
     },
@@ -22,12 +24,17 @@ export const ActionBarItems = [
   {
     label: "Smart tips",
     element: <LightbulbOutlinedIcon />,
-    onClick: (toggleDrawer: (value: boolean, label?: string) => void) => {
+    showLabel: true,
+    onClick: (toggleDrawer: (
+      value: boolean,
+      label?: string
+    ) => void) => {
       toggleDrawer(true, "Smart tips");
     },
   },
   {
     label: "Add Grabbers",
     element: <AddOutlined />,
+    showLabel: true,
   },
 ];

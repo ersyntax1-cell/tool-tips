@@ -13,7 +13,6 @@ export default function ActionBar() {
     return (
         <>
             <BottomNavigation
-                showLabels
                 sx={(theme) => ({
                     position: "fixed",
                     bottom: 0,
@@ -64,8 +63,6 @@ export default function ActionBar() {
                         </Box>
                     );
                 })}
-
-
             </BottomNavigation>
         </>
     )

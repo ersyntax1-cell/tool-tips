@@ -13,7 +13,7 @@ import { useState } from "react";
 
 interface OTPVerifyModalProps {
     onClose: () => void;
-    onConfirm: (otp: string) => Promise<void>; // изменили на async
+    onConfirm: (otp: string) => Promise<void>;
 }
 
 export default function OTPVerifyModal({ onClose, onConfirm }: OTPVerifyModalProps) {
@@ -28,10 +28,10 @@ export default function OTPVerifyModal({ onClose, onConfirm }: OTPVerifyModalPro
     });
 
     const onSubmit = handleSubmit(async (data: OTP) => {
-        setErrorMessage(null); // сброс ошибки перед попыткой
+        setErrorMessage(null);
         try {
-            await onConfirm(data.otp); // ожидаем результат
-            onClose(); // закрываем только если успешно
+            await onConfirm(data.otp);
+            onClose();
         } catch (err: any) {
             setErrorMessage(err.message || "Invalid OTP code");
         }
