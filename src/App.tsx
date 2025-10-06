@@ -6,6 +6,7 @@ import RegisterPage from './pages/auth/register/register';
 import LoginPage from './pages/auth/login/login';
 import ProtectRoutes from './components/protect-routes/protect-routes';
 import ProtectAuth from './components/protect-auth/protect-auth';
+import SmartTipsOverlay from './components/smart-tips-overlay/smart-tips-overlay';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <SmartTipsOverlay />
     </>
   )
 }

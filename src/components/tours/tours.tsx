@@ -8,7 +8,7 @@ interface Props {
 
 export default function ToursComponent({ data, onDelete }: Props) {
   return (
-    <div className="m-6">
+    <div className="m-6 grid grid-flow-col grid-rows-4 gap-2">
       {data && data.map((item) => (
         <TourItem key={item._id} data={item} onDelete={onDelete} />
       ))}

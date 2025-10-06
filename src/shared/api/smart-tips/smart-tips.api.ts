@@ -32,3 +32,16 @@ export async function removeSmartTip (id: string) {
         throw new Error(message);
     }
 }
+
+export async function editSmartTip (
+    id: string,
+    data: any
+) {
+    try {
+        const res = await apiForm.post(`/tool-tip/edit/${id}`, data);
+        return res.data;
+    } catch (error: any) {
+        const message = error?.response?.data?.message || error.message || 'Smart Tips edit error.';
+        throw new Error(message);
+    }
+}

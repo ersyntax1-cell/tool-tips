@@ -10,6 +10,7 @@ export default function Home() {
   const toggleDrawer = useSmartTipsSidebarStore((state) => state.toggle);
 
   const [data, setData] = useState<TourItemProps[]>([]);
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   useEffect(() => {
     fetchTips();
