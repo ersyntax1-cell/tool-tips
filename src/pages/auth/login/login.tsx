@@ -9,13 +9,12 @@ import {
     Paper,
     Typography,
     TextField,
-    Button,
     InputAdornment,
     IconButton,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useLoading } from "../../../hooks/loading/use-loading.hook";
-import { Icons } from "../../../shared/icon/icon";
+import SubmiterButton from "../../../components/submiter-button/submiter-button";
 
 export default function LoginPage() {
     const navigate = useNavigate();
@@ -124,15 +123,7 @@ export default function LoginPage() {
                     </Link>
                 </Typography>
 
-                <Button
-                    type="submit"
-                    disabled={loading}
-                    variant="contained"
-                    fullWidth
-                    sx={{ bgcolor: "#1976d2" }}
-                >
-                    {loading ? Icons.loadingIcon : "Continue"}
-                </Button>
+                <SubmiterButton loading={loading} />
             </Paper>
         </Box>
     );

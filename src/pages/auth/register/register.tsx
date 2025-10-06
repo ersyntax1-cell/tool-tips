@@ -4,20 +4,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { registerSchema, type RegisterForm } from "../../../shared/schemas/register/register.schema";
 import { useState } from "react";
 import OTPVerifyModal from "../../../components/otp-verify-modal/otp-verify-modal";
-import { Icons } from "../../../shared/icon/icon";
 import { useLoading } from "../../../hooks/loading/use-loading.hook";
 import {
     Box,
     Paper,
     Typography,
     TextField,
-    Button,
     InputAdornment,
     IconButton,
 } from "@mui/material";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { confirmOTP, onRegister, sendOTP } from "../../../shared/api/auth/auth.api";
+import SubmiterButton from "../../../components/submiter-button/submiter-button";
 
 export default function RegisterPage() {
     const navigate = useNavigate();
@@ -173,15 +172,7 @@ export default function RegisterPage() {
                     </Link>
                 </Typography>
 
-                <Button
-                    type="submit"
-                    disabled={loading}
-                    variant="contained"
-                    fullWidth
-                    sx={{ bgcolor: "#1976d2" }}
-                >
-                    {loading ? Icons.loadingIcon : "Continue"}
-                </Button>
+                <SubmiterButton loading={loading} />
             </Paper>
 
             {isOpen && (
