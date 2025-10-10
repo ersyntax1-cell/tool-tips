@@ -2,7 +2,6 @@ import { AddOutlined } from '@mui/icons-material';
 import BrushOutlinedIcon from '@mui/icons-material/BrushOutlined';
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined';
 import TourOutlinedIcon from '@mui/icons-material/TourOutlined';
-// import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 export const ActionBarItems = [
   {
@@ -13,6 +12,12 @@ export const ActionBarItems = [
     onClick: () => {
       console.log("Branding clicked");
     },
+  },
+  {
+    id: 'add-grabers',
+    label: "Add Grabbers",
+    element: <AddOutlined />,
+    showLabel: true,
   },
   {
     id: 'tours',
@@ -28,18 +33,9 @@ export const ActionBarItems = [
     label: "Smart tips",
     element: <LightbulbOutlinedIcon />,
     showLabel: true,
-    onClick: (
-      toggleDrawer: (
-        value: boolean,
-        label?: string
-      ) => void) => {
-      toggleDrawer(true, "Smart tips");
-    },
-  },
-  {
-    id: 'add-grabers',
-    label: "Add Grabbers",
-    element: <AddOutlined />,
-    showLabel: true,
+    onClick: () => {
+      console.log('clicked');
+
+    }
   },
 ];
