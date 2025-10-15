@@ -6,8 +6,6 @@ import RegisterPage from './pages/auth/register/register';
 import LoginPage from './pages/auth/login/login';
 import ProtectRoutes from './components/protect-routes/protect-routes';
 import ProtectAuth from './components/protect-auth/protect-auth';
-import SmartTipsOverlay from './components/smart-tips-overlay/smart-tips-overlay';
-import GlobalPicker from './components/global-picker/global-picker';
 
 function App() {
 
@@ -25,7 +23,6 @@ function App() {
           </Route>
         </Route>
       </Routes>
-      <GlobalPicker />
     </>
   )
 }

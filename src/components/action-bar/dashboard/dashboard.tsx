@@ -6,9 +6,12 @@ import {
   Divider,
   Fade,
   Backdrop,
+  IconButton,
 } from "@mui/material";
 import { DashboardItems } from "../dashboard-items/dashboard-items";
 import ModalComponent from "../modal/modal";
+import "./dashboard.css";
+import CloseIcon from '@mui/icons-material/Close';
 
 interface ElementPickerProps {
   open: boolean;
@@ -16,7 +19,7 @@ interface ElementPickerProps {
 }
 
 const ElementPicker: React.FC<ElementPickerProps> = ({ open, onClose }) => {
-  const [modal, setModal] = useState<boolean>(true);
+  const [modal, setModal] = useState<boolean>(false);
 
   const handleOpenModal = () => {
     setModal(true);
@@ -36,19 +39,30 @@ const ElementPicker: React.FC<ElementPickerProps> = ({ open, onClose }) => {
         open={open}
         onClose={onClose}
         closeAfterTransition
+        disablePortal
         slots={{ backdrop: Backdrop }}
-        slotProps={{ backdrop: { sx: { backgroundColor: "transparent" } } }}
+        slotProps={{
+          backdrop: {
+            sx: {
+              backgroundColor: "transparent",
+            },
+          },
+        }}
+        sx={{
+          zIndex: 5,
+        }}
       >
         <Fade in={open}>
           <Box
             sx={{
               position: "fixed",
-              bottom: 90,
+              bottom: 75,
               left: 0,
               right: 0,
               mx: "auto",
               width: "100%",
               maxWidth: 480,
+              height: 450,
               bgcolor: "background.paper",
               boxShadow: 24,
               p: 3,
@@ -57,11 +71,20 @@ const ElementPicker: React.FC<ElementPickerProps> = ({ open, onClose }) => {
               flexDirection: "column",
               gap: 1.5,
               transformOrigin: "bottom",
+              animation: open ? "slideUp 0.4s ease-out" : "slideDown 0.2s ease-out",
+              borderRadius: 2,
             }}
           >
-            <Typography variant="h6" sx={{ mb: 1 }}>
-              Choose what to add
-            </Typography>
+
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Typography variant="h6" sx={{ mb: 1, color: '#000' }}>
+                Choose what to add
+              </Typography>
+
+              <IconButton onClick={onClose}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
             <Divider sx={{ mb: 1.5 }} />
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
               {itemsWithActions.map((item) => (
@@ -75,7 +98,9 @@ const ElementPicker: React.FC<ElementPickerProps> = ({ open, onClose }) => {
                   }}
                   onClick={item.onClick}
                 >
-                  <Typography>{item.label}</Typography>
+                  <Typography sx={{ color: '#000' }}>
+                    {item.label}
+                  </Typography>
                 </Box>
               ))}
             </Box>

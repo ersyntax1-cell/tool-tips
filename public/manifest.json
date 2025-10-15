@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "My React Extension",
+  "version": "1.0.0",
+  "description": "React extension built with Vite + TypeScript",
+  "action": {
+    "default_title": "My Extension"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

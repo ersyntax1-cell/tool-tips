@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import ImageSelect from "../../image-select/image-select";
 import { usePickElementStore } from "../../../shared/store/pick-element-store/pick-element.store";
 import { useForm, Controller } from "react-hook-form";
@@ -23,7 +23,6 @@ export default function ModalForm({ onClose }: FormProps) {
 
   const onSubmit = (data: ToolTipForm) => {
     if (!image) {
-      alert("Image is required");
       return;
     }
 
@@ -34,7 +33,14 @@ export default function ModalForm({ onClose }: FormProps) {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", justifyContent: 'space-between', height: '100%', px: 2, pt: 2, pb: 10 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        py: 4,
+        px: 2
+      }}>
       <Controller
         name="title"
         control={control}
@@ -65,14 +71,21 @@ export default function ModalForm({ onClose }: FormProps) {
         )}
       />
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 2 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          mt: 2
+        }}>
         <ImageSelect setImage={setImage} />
-        {!image && <Typography color="error" variant="caption">Image is required</Typography>}
       </Box>
 
       <Button
         variant="contained"
-        sx={{ mt: 2, bgcolor: '#5698dd' }}
+        sx={{
+          bgcolor: '#5698dd',
+        }}
         onClick={handleSubmit(onSubmit)}
       >
         Pick Element
