@@ -2,89 +2,101 @@ import { useEffect, useState } from "react";
 import { usePickElementStore } from "../../shared/store/pick-element-store/pick-element.store";
 import { createSmartTips } from "../../shared/api/smart-tips/smart-tips.api";
 
+function buildSafeSelector(selector: string) {
+  if (!selector) return "";
+  if (selector.startsWith("#")) return selector;
+  const classes = selector.split(" ");
+  const escapedClasses = classes.map(c => `.${CSS.escape(c)}`);
+  return escapedClasses.join("");
+}
+
 export default function GlobalPicker() {
-    const pickMode = usePickElementStore((state) => state.pickMode);
-    const setPickMode = usePickElementStore((state) => state.setPickMode);
-    const setPickedSelector = usePickElementStore((state) => state.setPickedSelector);
-    const [hoveredEl, setHoveredEl] = useState<HTMLElement | null>(null);
+  const pickMode = usePickElementStore((state) => state.pickMode);
+  const setPickMode = usePickElementStore((state) => state.setPickMode);
+  const setPickedSelector = usePickElementStore((state) => state.setPickedSelector);
+  const [hoveredEl, setHoveredEl] = useState<HTMLElement | null>(null);
 
-    const { title, description, image } = usePickElementStore.getState();
+  const { title, description, image } = usePickElementStore.getState();
 
-    async function handleSubmit(selector: string) {
-        if (!image) return;
-        if (!selector) return;
+  async function handleSubmit(selector: string) {
+    if (!image || !selector) return;
 
-        const formData = new FormData();
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("selector", selector);
+    formData.append("image", image);
 
-        formData.append("title", title);
-        formData.append("description", description);
-        formData.append("selector", selector);
-        formData.append("image", image);
-
-        try {
-            await createSmartTips(formData);
-            console.log("Tool tip created successfully");
-        } catch (error: any) {
-            console.error(error);
-        }
+    try {
+      await createSmartTips(formData);
+      console.log("Tool tip created successfully");
+    } catch (error: any) {
+      console.error(error);
     }
+  }
 
-    useEffect(() => {
-        document.body.style.cursor = pickMode ? "crosshair" : "default";
-        return () => {
-            document.body.style.cursor = "default";
-        };
-    }, [pickMode]);
+  useEffect(() => {
+    document.body.style.cursor = pickMode ? "crosshair" : "default";
+    return () => {
+      document.body.style.cursor = "default";
+    };
+  }, [pickMode]);
 
-    useEffect(() => {
-        if (!pickMode) return;
+  useEffect(() => {
+    if (!pickMode) return;
 
-        const handleMouseOver = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            setHoveredEl(target);
-            target.style.outline = "2px solid red";
-            target.style.cursor = "crosshair";
-        };
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target || target.closest("#my-extension-root") || target.closest(".extension-ui")) return;
 
-        const handleMouseOut = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            target.style.outline = "";
-            target.style.cursor = "";
-            setHoveredEl(null);
-        };
+      setHoveredEl(target);
+      target.style.outline = "2px solid red";
+      target.style.cursor = "crosshair";
+    };
 
-        const handleClick = async (e: MouseEvent) => {
-            e.preventDefault();
-            e.stopPropagation();
+    const handleMouseOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target) return;
 
-            const target = e.target as HTMLElement;
+      target.style.outline = "";
+      target.style.cursor = "";
+      setHoveredEl(null);
+    };
 
-            let selector = "";
-            if (target.id) selector = `#${target.id}`;
-            else if (target.className) selector = `.${(target.className as string).split(" ").join(".")}`;
-            else selector = target.tagName.toLowerCase();
+    const handleClick = async (e: MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-            setPickedSelector(selector);
-            setPickMode(false);
+      const target = e.target as HTMLElement;
+      if (!target) return;
 
-            if (hoveredEl) {
-                hoveredEl.style.outline = "";
-                hoveredEl.style.cursor = "";
-            }
+      let selector = "";
+      if (target.id) selector = `#${CSS.escape(target.id)}`;
+      else if (target.className && typeof target.className === "string")
+        selector = buildSafeSelector(target.className);
+      else selector = target.tagName.toLowerCase();
 
-            await handleSubmit(selector);
-        };
+      setPickedSelector(selector);
+      setPickMode(false);
 
-        document.addEventListener("mouseover", handleMouseOver);
-        document.addEventListener("mouseout", handleMouseOut);
-        document.addEventListener("click", handleClick, true);
+      if (hoveredEl) {
+        hoveredEl.style.outline = "";
+        hoveredEl.style.cursor = "";
+      }
 
-        return () => {
-            document.removeEventListener("mouseover", handleMouseOver);
-            document.removeEventListener("mouseout", handleMouseOut);
-            document.removeEventListener("click", handleClick, true);
-        };
-    }, [pickMode, hoveredEl, setPickMode, setPickedSelector]);
+      await handleSubmit(selector);
+    };
 
-    return null;
+    document.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseout", handleMouseOut);
+    document.addEventListener("click", handleClick, true);
+
+    return () => {
+      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
+      document.removeEventListener("click", handleClick, true);
+    };
+  }, [pickMode, hoveredEl, setPickMode, setPickedSelector]);
+
+  return null;
 }
