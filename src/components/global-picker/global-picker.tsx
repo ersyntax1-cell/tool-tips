@@ -21,11 +21,14 @@ export default function GlobalPicker() {
   async function handleSubmit(selector: string) {
     if (!image || !selector) return;
 
+    const domain = window.location.hostname;
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("selector", selector);
     formData.append("image", image);
+    formData.append("domain", domain);
 
     try {
       await createSmartTips(formData);

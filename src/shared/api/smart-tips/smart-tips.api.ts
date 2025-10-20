@@ -13,9 +13,13 @@ export async function createSmartTips(
     }
 }
 
-export async function getSmartTips() {
+export async function getSmartTips(
+    domain: string
+) {
     try {
-        const res = await api.get('/tool-tip/all');
+        const res = await api.post('/tool-tip/all', {
+            domain
+        });
         return res.data;
     } catch (error: any) {
         const message = error?.response?.data?.message || error.message || 'Smart Tips get error.';

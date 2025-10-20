@@ -16,10 +16,12 @@ export default function ToolTipOverlay() {
   const [coords, setCoords] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
+    const domain = window.location.hostname;
     async function fetchTips() {
       try {
-        const data = await getSmartTips();
+        const data = await getSmartTips(domain);
         setTips(data);
+        console.log(data);
       } catch (err) {
         console.error(err);
       }
