@@ -1,19 +1,19 @@
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: import.meta.env.AUTH_URL,
     headers: { "Content-Type": "application/json" },
 });
 
 export const apiForm = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: import.meta.env.AUTH_URL,
   headers: {
     "Content-Type": "multipart/form-data"
   },
 });
 
 export const authApi = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: import.meta.env.AUTH_URL,
   headers: { "Content-Type": "application/json" },
 });
 
