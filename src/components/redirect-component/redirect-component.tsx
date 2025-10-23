@@ -1,13 +1,20 @@
 import { useEffect } from "react";
-import AuthCheck from "../../auth-check/auth-check";
 import ActionBar from "../action-bar/action-bar";
 import GlobalPicker from "../global-picker/global-picker";
 import ToolTipOverlay from "../tooltip-overlay/tooltip-overlay";
+import useAuthContext from "../../hooks/auth-context/auth-context.hook";
+import LoginPage from "../../pages/auth/login/login";
+import RegisterPage from "../../pages/auth/register/register";
 
 export default function RedirectComponent() {
+  const { mode } = useAuthContext();
 
-  if (!AuthCheck) {
-    // navigate to /login
+  if (mode === 'login') {
+    return <LoginPage />
+  }
+
+  if (mode === 'register') {
+    return <RegisterPage />
   }
 
   async function fetchDomain() {

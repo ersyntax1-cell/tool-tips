@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginForm } from "../../../shared/schemas/login/login.schema";
 import { onLogin } from "../../../shared/api/auth/auth.api";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
     Box,
@@ -15,9 +15,11 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useLoading } from "../../../hooks/loading/use-loading.hook";
 import SubmiterButton from "../../../components/submiter-button/submiter-button";
+import useAuthContext from "../../../hooks/auth-context/auth-context.hook";
 
 export default function LoginPage() {
     const navigate = useNavigate();
+    const { toggleMode } = useAuthContext();
 
     const { loading, startLoading, stopLoading } = useLoading();
 
@@ -115,12 +117,12 @@ export default function LoginPage() {
                     textAlign="center"
                 >
                     Don't have an account?{" "}
-                    <Link
-                        to="/auth/register"
+                    <span
+                        onClick={toggleMode}
                         style={{ color: "#1976d2" }}
                     >
                         Registration
-                    </Link>
+                    </span>
                 </Typography>
 
                 <SubmiterButton loading={loading} />
