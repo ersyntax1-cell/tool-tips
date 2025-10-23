@@ -36,8 +36,10 @@ export default function RedirectComponent() {
   }
 
   useEffect(() => {
+    if (mode !== 'app') return;
+
     fetchDomain();
-  }, []);
+  }, [mode]);
 
   return (
     <>

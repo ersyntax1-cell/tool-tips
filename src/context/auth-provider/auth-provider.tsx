@@ -21,12 +21,10 @@ export const AuthProvider: React.FC<{
     const [mode, setMode] = useState<'login' | 'register' | 'app'>('app');
 
     useEffect(() => {
-      if (!AuthCheck) {
-        setMode('login');
-      }
-
-      setMode('app');
+      const isAuth = AuthCheck();
+      setMode(isAuth ? 'app' : 'login');
     }, []);
+
 
     const toggleMode = () => {
       setMode((prev) =>
