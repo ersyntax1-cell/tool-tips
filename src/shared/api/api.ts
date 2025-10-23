@@ -26,4 +26,4 @@ const addAuthHeader = (config: any) => {
 };
 
 apiForm.interceptors.response.use(addAuthHeader, (error) => Promise.reject(error));
-// api.interceptors.response.use(addAuthHeader, (error) => Promise.reject(error));
+api.interceptors.response.use(addAuthHeader, (error) => Promise.reject(error));
