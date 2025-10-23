@@ -7,14 +7,20 @@ export default function ModalLayout() {
 
   async function fetchDomain() {
     const domain = window.location.hostname;
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
 
     fetch('http://localhost:3000/domain', {
       method: 'POST',
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({domain})
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ domain })
     })
-    .then((res) => res.json())
-    .catch(console.error);
+      .then(res => res.json())
+      .catch(console.error);
   }
 
   useEffect(() => {
@@ -23,9 +29,9 @@ export default function ModalLayout() {
 
   return (
     <>
-        <ActionBar />
-        <GlobalPicker />
-        <ToolTipOverlay />
+      <ActionBar />
+      <GlobalPicker />
+      <ToolTipOverlay />
     </>
   )
 }
