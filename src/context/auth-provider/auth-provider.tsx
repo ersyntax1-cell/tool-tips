@@ -16,7 +16,7 @@ interface AuthContextProps {
 export const AuthContext = createContext<AuthContextProps | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [mode, setMode] = useState<"login" | "register" | "app">("app");
+  const [mode, setMode] = useState<"login" | "register" | "app">("login");
 
   useEffect(() => {
     const checkAuth = async () => {
