@@ -169,7 +169,7 @@ export default function RegisterPage() {
           Already registered?{" "}
           <span
             onClick={toggleMode}
-            style={{ color: "#1976d2" }}>
+            style={{ color: "#1976d2", cursor: 'pointer' }}>
             Login
           </span>
         </Typography>

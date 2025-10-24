@@ -15,33 +15,36 @@ export const authApi = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-function getToken(): string | null {
-  try {
-    return localStorage.getItem("token");
-  } catch (err) {
-    console.error("getToken error:", err);
-    return null;
-  }
+async function getToken(): Promise<string | null> {
+  return new Promise((resolve) => {
+    chrome.storage.local.get("token", (result) => {
+      resolve(result.token || null);
+    });
+  });
 }
 
-function addAuthHeader(config: any) {
-  const token = getToken();
+api.interceptors.request.use(async (config) => {
+  const token = await getToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-}
+});
 
-api.interceptors.request.use(addAuthHeader, (error) => Promise.reject(error));
-apiForm.interceptors.request.use(addAuthHeader, (error) => Promise.reject(error));
+apiForm.interceptors.request.use(async (config) => {
+  const token = await getToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 const handleUnauthorized = (error: any) => {
   if (error.response?.status === 401) {
-    localStorage.removeItem("token");
-
-    window.dispatchEvent(new Event("unauthorized"));
+    chrome.storage.local.remove("token", () => {
+      window.dispatchEvent(new Event("unauthorized"));
+    });
   }
-
   return Promise.reject(error);
 };
 

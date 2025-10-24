@@ -38,7 +38,10 @@ export default function LoginPage() {
 
         try {
             const res = await onLogin(data);
-            localStorage.setItem('token', res.access_token);
+            chrome.storage.local.set({ token: res.access_token }, () => {
+                console.log("Token saved in chrome.storage");
+                setMode('app');
+            });
             setMode('app');
             console.log("Login successful");
         } catch (error: any) {
@@ -117,7 +120,7 @@ export default function LoginPage() {
                     Don't have an account?{" "}
                     <span
                         onClick={toggleMode}
-                        style={{ color: "#1976d2" }}
+                        style={{ color: "#1976d2", cursor: 'pointer' }}
                     >
                         Registration
                     </span>
