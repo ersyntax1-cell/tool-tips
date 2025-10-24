@@ -17,9 +17,7 @@ export async function getSmartTips(
     domain: string
 ) {
     try {
-        const res = await api.post('/tool-tip/all', {
-            domain
-        });
+        const res = await api.get(`/tool-tip/all/${domain}`);
         return res.data;
     } catch (error: any) {
         const message = error?.response?.data?.message || error.message || 'Smart Tips get error.';

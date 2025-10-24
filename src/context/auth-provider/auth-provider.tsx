@@ -3,47 +3,46 @@ import React, {
   useEffect,
   useState,
   type Dispatch,
-  type SetStateAction
+  type SetStateAction,
 } from "react";
 import AuthCheck from "../../auth-check/auth-check";
 
 interface AuthContextProps {
-  mode: 'login' | 'register' | 'app',
+  mode: "login" | "register" | "app";
   toggleMode: () => void;
   setMode: Dispatch<SetStateAction<"login" | "register" | "app">>;
 }
 
 export const AuthContext = createContext<AuthContextProps | null>(null);
 
-export const AuthProvider: React.FC<{
-  children: React.ReactNode
-}> = ({
-  children
-}) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [mode, setMode] = useState<"login" | "register" | "app">("app");
 
-    const [mode, setMode] = useState<'login' | 'register' | 'app'>('app');
+  useEffect(() => {
+    const checkAuth = async () => {
+      const isAuth = await AuthCheck();
+      setMode(isAuth ? "app" : "login");
+    };
 
-    useEffect(() => {
-      const checkAuth = async () => {
-        const isAuth = await AuthCheck();
-        setMode(isAuth ? 'app' : 'login');
-      };
+    checkAuth();
+  }, []);
 
-      checkAuth();
-    }, []);
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      setMode("login");
+    };
 
-    const toggleMode = () => {
-      setMode((prev) =>
-        prev === 'login' ? 'register' : 'login');
-    }
+    window.addEventListener("unauthorized", handleUnauthorized);
+    return () => window.removeEventListener("unauthorized", handleUnauthorized);
+  }, []);
 
-    return (
-      <AuthContext.Provider value={{
-        mode,
-        toggleMode,
-        setMode
-      }}>
-        {children}
-      </AuthContext.Provider>
-    )
-  }
+  const toggleMode = () => {
+    setMode((prev) => (prev === "login" ? "register" : "login"));
+  };
+
+  return (
+    <AuthContext.Provider value={{ mode, toggleMode, setMode }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

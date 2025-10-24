@@ -8,7 +8,13 @@ export default function AuthComponents() {
 
   if (mode === 'login') {
     return (
-      <Dialog open fullWidth maxWidth="sm">
+      <Dialog
+        open
+        fullWidth
+        maxWidth="sm"
+        disablePortal
+        sx={{ bgcolor: 'transparent' }}
+      >
         <LoginPage />
       </Dialog>
     );
@@ -16,7 +22,13 @@ export default function AuthComponents() {
 
   if (mode === 'register') {
     return (
-      <Dialog open fullWidth maxWidth="sm">
+      <Dialog
+        open
+        fullWidth
+        maxWidth="sm"
+        disablePortal
+        sx={{ bgcolor: 'transparent' }}
+      >
         <RegisterPage />
       </Dialog>
     );

@@ -7,9 +7,7 @@ export const api = axios.create({
 
 export const apiForm = axios.create({
   baseURL: "http://localhost:3000",
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
+  headers: { "Content-Type": "multipart/form-data" },
 });
 
 export const authApi = axios.create({
@@ -17,12 +15,8 @@ export const authApi = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-async function getToken(): Promise<string | null> {
+function getToken(): string | null {
   try {
-    if (typeof chrome !== "undefined" && chrome.storage?.local) {
-      const { token } = await chrome.storage.local.get("token");
-      if (token) return token;
-    }
     return localStorage.getItem("token");
   } catch (err) {
     console.error("getToken error:", err);
@@ -30,8 +24,8 @@ async function getToken(): Promise<string | null> {
   }
 }
 
-async function addAuthHeader(config: any) {
-  const token = await getToken();
+function addAuthHeader(config: any) {
+  const token = getToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -40,3 +34,16 @@ async function addAuthHeader(config: any) {
 
 api.interceptors.request.use(addAuthHeader, (error) => Promise.reject(error));
 apiForm.interceptors.request.use(addAuthHeader, (error) => Promise.reject(error));
+
+const handleUnauthorized = (error: any) => {
+  if (error.response?.status === 401) {
+    localStorage.removeItem("token");
+
+    window.dispatchEvent(new Event("unauthorized"));
+  }
+
+  return Promise.reject(error);
+};
+
+api.interceptors.response.use((res) => res, handleUnauthorized);
+apiForm.interceptors.response.use((res) => res, handleUnauthorized);
