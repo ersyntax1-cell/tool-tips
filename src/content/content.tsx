@@ -15,6 +15,7 @@ function appendApp() {
   document.body.appendChild(container);
 
   const shadow = container.attachShadow({ mode: "open" });
+
   const wrapper = document.createElement("div");
   Object.assign(wrapper.style, {
     width: "100vw",
@@ -22,7 +23,14 @@ function appendApp() {
   });
   shadow.appendChild(wrapper);
 
-  const cache = createCache({ key: "mui", prepend: true, container: shadow });
+  const emotionRoot = document.createElement("style");
+  shadow.appendChild(emotionRoot);
+
+  const cache = createCache({
+    key: "mui",
+    prepend: true,
+    container: emotionRoot,
+  });
 
   const reactRoot = document.createElement("div");
   wrapper.appendChild(reactRoot);

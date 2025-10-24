@@ -1,29 +1,42 @@
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL: import.meta.env.AUTH_URL,
-    headers: { "Content-Type": "application/json" },
+  baseURL: "http://localhost:3000",
+  headers: { "Content-Type": "application/json" },
 });
 
 export const apiForm = axios.create({
-  baseURL: import.meta.env.AUTH_URL,
+  baseURL: "http://localhost:3000",
   headers: {
-    "Content-Type": "multipart/form-data"
+    "Content-Type": "multipart/form-data",
   },
 });
 
 export const authApi = axios.create({
-  baseURL: import.meta.env.AUTH_URL,
+  baseURL: "http://localhost:3000",
   headers: { "Content-Type": "application/json" },
 });
 
-const addAuthHeader = (config: any) => {
-  const token = localStorage.getItem("token");
+async function getToken(): Promise<string | null> {
+  try {
+    if (typeof chrome !== "undefined" && chrome.storage?.local) {
+      const { token } = await chrome.storage.local.get("token");
+      if (token) return token;
+    }
+    return localStorage.getItem("token");
+  } catch (err) {
+    console.error("getToken error:", err);
+    return null;
+  }
+}
+
+async function addAuthHeader(config: any) {
+  const token = await getToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-};
+}
 
-apiForm.interceptors.response.use(addAuthHeader, (error) => Promise.reject(error));
-api.interceptors.response.use(addAuthHeader, (error) => Promise.reject(error));
+api.interceptors.request.use(addAuthHeader, (error) => Promise.reject(error));
+apiForm.interceptors.request.use(addAuthHeader, (error) => Promise.reject(error));

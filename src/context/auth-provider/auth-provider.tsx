@@ -1,13 +1,16 @@
 import React, {
   createContext,
   useEffect,
-  useState
+  useState,
+  type Dispatch,
+  type SetStateAction
 } from "react";
 import AuthCheck from "../../auth-check/auth-check";
 
 interface AuthContextProps {
   mode: 'login' | 'register' | 'app',
   toggleMode: () => void;
+  setMode: Dispatch<SetStateAction<"login" | "register" | "app">>;
 }
 
 export const AuthContext = createContext<AuthContextProps | null>(null);
@@ -21,10 +24,13 @@ export const AuthProvider: React.FC<{
     const [mode, setMode] = useState<'login' | 'register' | 'app'>('app');
 
     useEffect(() => {
-      const isAuth = AuthCheck();
-      setMode(isAuth ? 'app' : 'login');
-    }, []);
+      const checkAuth = async () => {
+        const isAuth = await AuthCheck();
+        setMode(isAuth ? 'app' : 'login');
+      };
 
+      checkAuth();
+    }, []);
 
     const toggleMode = () => {
       setMode((prev) =>
@@ -34,7 +40,8 @@ export const AuthProvider: React.FC<{
     return (
       <AuthContext.Provider value={{
         mode,
-        toggleMode
+        toggleMode,
+        setMode
       }}>
         {children}
       </AuthContext.Provider>

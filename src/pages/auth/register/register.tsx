@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
 import { registerSchema, type RegisterForm } from "../../../shared/schemas/register/register.schema";
 import { useState } from "react";
 import OTPVerifyModal from "../../../components/otp-verify-modal/otp-verify-modal";
@@ -20,8 +19,7 @@ import SubmiterButton from "../../../components/submiter-button/submiter-button"
 import useAuthContext from "../../../hooks/auth-context/auth-context.hook";
 
 export default function RegisterPage() {
-  const navigate = useNavigate();
-  const { toggleMode } = useAuthContext();
+  const { toggleMode, setMode } = useAuthContext();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [registerData, setRegisterData] = useState<RegisterForm | null>(null);
@@ -69,7 +67,7 @@ export default function RegisterPage() {
       localStorage.setItem("token", data.access_token);
       console.log("Registration successful!");
       setIsOpen(false);
-      navigate("/");
+      setMode('app');
     } catch (error: any) {
       setErrorMessage(error.response?.data?.message || "Failed to confirm OTP");
     } finally {

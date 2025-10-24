@@ -22,6 +22,16 @@ export async function onLogin(data: LoginForm) {
             email: data.email,
             password: data.password
         });
+
+        const token = res.data?.token;
+        if (token) {
+            if (typeof chrome !== "undefined" && chrome.storage?.local) {
+                await chrome.storage.local.set({ token });
+            } else {
+                localStorage.setItem("token", token);
+            }
+        }
+
         return res.data;
     } catch (error: any) {
         const message = error?.response?.data?.message || error.message || 'Server Error.';

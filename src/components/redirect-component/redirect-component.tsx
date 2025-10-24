@@ -2,20 +2,11 @@ import { useEffect } from "react";
 import ActionBar from "../action-bar/action-bar";
 import GlobalPicker from "../global-picker/global-picker";
 import ToolTipOverlay from "../tooltip-overlay/tooltip-overlay";
-// import useAuthContext from "../../hooks/auth-context/auth-context.hook";
-// import LoginPage from "../../pages/auth/login/login";
-// import RegisterPage from "../../pages/auth/register/register";
+import useAuthContext from "../../hooks/auth-context/auth-context.hook";
+import AuthComponents from "../../auth-components/auth-components";
 
 export default function RedirectComponent() {
-  // const { mode } = useAuthContext();
-
-  // if (mode === 'login') {
-  //   return <LoginPage />
-  // }
-
-  // if (mode === 'register') {
-  //   return <RegisterPage />
-  // }
+  const { mode } = useAuthContext();
 
   async function fetchDomain() {
     const domain = window.location.hostname;
@@ -36,16 +27,17 @@ export default function RedirectComponent() {
   }
 
   useEffect(() => {
-    // if (mode !== 'app') return;
-
+    if (mode !== 'app') return;
     fetchDomain();
-  }, []);
+  }, [mode]);
 
-  return (
+  return mode === 'app' ? (
     <>
       <ActionBar />
       <GlobalPicker />
       <ToolTipOverlay />
     </>
-  )
+  ) : (
+    <AuthComponents />
+  );
 }
