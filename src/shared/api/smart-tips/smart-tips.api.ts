@@ -27,7 +27,7 @@ export async function getSmartTips(
 
 export async function removeSmartTip (id: string) {
     try {
-        const res = await api.post(`/tool-tip/remove/${id}`);
+        const res = await api.delete(`/tool-tip/remove/${id}`);
         return res.data;
     } catch (error: any) {
         const message = error?.response?.data?.message || error.message || 'Smart Tips remove error.';
@@ -40,7 +40,7 @@ export async function editSmartTip (
     data: any
 ) {
     try {
-        const res = await apiForm.post(`/tool-tip/edit/${id}`, data);
+        const res = await apiForm.put(`/tool-tip/edit/${id}`, data);
         return res.data;
     } catch (error: any) {
         const message = error?.response?.data?.message || error.message || 'Smart Tips edit error.';
